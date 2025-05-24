@@ -5,7 +5,7 @@ function App() {
   const [message, setMessage] = useState("Loading...");
 
   useEffect(() => {
-    axios.get("http://<your-ec2-ip>:8000/hello")
+    axios.get("http://18.116.89.113:8000/hello")
       .then(response => setMessage(response.data.message))
       .catch(() => setMessage("Error contacting backend"));
   }, []);
