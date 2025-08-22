@@ -9,7 +9,7 @@ app = FastAPI()
 # Allow frontend (React dev server on localhost:3000) to talk to backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["https://smart-resume-screener-df4o.onrender.com"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
