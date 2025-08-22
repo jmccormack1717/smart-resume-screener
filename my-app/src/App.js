@@ -13,7 +13,7 @@ export default function App() {
     formData.append("resumes", resume);
   });
 
-  const response = await fetch("http://localhost:8002/upload", {
+  const response = await fetch("https://smart-resume-screener-backend.onrender.com/upload", {
   method: "POST",
   body: formData,
 });
