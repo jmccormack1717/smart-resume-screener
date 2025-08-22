@@ -13,10 +13,11 @@ export default function App() {
     formData.append("resumes", resume);
   });
 
-  const response = await fetch("http://localhost:8001/upload", {
-    method: "POST",
-    body: formData,
-  });
+  const response = await fetch("http://localhost:8002/upload", {
+  method: "POST",
+  body: formData,
+});
+
 
   const data = await response.json();
   console.log("Backend response:", data);
