@@ -5,12 +5,24 @@ export default function App() {
   const [jobFile, setJobFile] = useState(null);
   const [resumes, setResumes] = useState([]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Job description file:", jobFile);
-    console.log("Resumes:", resumes);
-    alert("Files uploaded! (Backend connection coming soon)");
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  const formData = new FormData();
+  formData.append("job_description", jobFile);
+  resumes.forEach((resume) => {
+    formData.append("resumes", resume);
+  });
+
+  const response = await fetch("http://localhost:8000/upload", {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = await response.json();
+  console.log("Backend response:", data);
+  alert("Upload successful! Check console for response.");
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
