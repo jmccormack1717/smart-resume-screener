@@ -9,9 +9,7 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-client = OpenAI(
-    api_key="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"
-)
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 app = FastAPI()
 
