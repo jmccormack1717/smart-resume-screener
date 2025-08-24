@@ -55,19 +55,24 @@ async def upload_files(
     job_description: UploadFile = File(...),
     resumes: List[UploadFile] = File(...)
 ):
-    job_text = await extract_text(job_description)
-    resumes_text = []
-    for r in resumes:
-        text = await extract_text(r)
-        resumes_text.append({"filename": r.filename, "content": text})
+    try:
+        job_text = await extract_text(job_description)
+        resumes_text = []
+        for r in resumes:
+            text = await extract_text(r)
+            resumes_text.append({"filename": r.filename, "content": text})
 
-    llm_output = analyze_resumes(job_text, resumes_text)
+        llm_output = analyze_resumes(job_text, resumes_text)
 
-    return {
-        "job_description_preview": job_text[:300],
-        "resumes": resumes_text,
-        "llm_output": llm_output
-    }
+        return {
+            "job_description_preview": job_text[:300],
+            "resumes": resumes_text,
+            "llm_output": llm_output
+        }
+
+    except Exception as e:
+        return {"error": str(e)}
+
 
 from fastapi.responses import JSONResponse
 from fastapi import Request
