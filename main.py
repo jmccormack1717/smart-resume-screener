@@ -4,12 +4,12 @@ from typing import List
 import PyPDF2
 import docx
 import io
-import openai
+from openai import OpenAI
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 app = FastAPI()
 
@@ -38,10 +38,6 @@ async def extract_text(file: UploadFile):
         return content.decode("utf-8", errors="ignore")
 
 def analyze_resumes(job_text, resumes_text):
-    """
-    job_text: str
-    resumes_text: list of dicts [{"filename":..., "content":...}, ...]
-    """
     prompt = f"Job description:\n{job_text}\n\nResumes:\n"
     for r in resumes_text:
         prompt += f"{r['filename']}:\n{r['content']}\n\n"
@@ -53,8 +49,8 @@ def analyze_resumes(job_text, resumes_text):
         temperature=0
     )
 
-    # In the new API, the content is under response.choices[0].message.content
     return response.choices[0].message.content
+
 
 
 @app.post("/upload")
