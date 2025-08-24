@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 client = OpenAI(
-    api_key="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"
+    api_key="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"
 )
 
 app = FastAPI()
