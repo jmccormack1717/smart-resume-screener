@@ -1,4 +1,3 @@
-// src/App.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -53,21 +52,32 @@ export default function App() {
           </div>
 
           {/* Resume Upload */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Upload Resumes
-            </label>
-            <input
-              type="file"
-              accept=".pdf,.doc,.docx,.txt"
-              multiple
-              onChange={(e) => setResumes(Array.from(e.target.files))}
-              className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 
-                         file:rounded-full file:border-0 file:text-sm file:font-semibold 
-                         file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
-              required
-            />
-          </div>
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-2">
+    Upload Resumes
+  </label>
+  <input
+    type="file"
+    accept=".pdf,.doc,.docx,.txt"
+    multiple
+    onChange={(e) => setResumes(Array.from(e.target.files))}
+    className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 
+               file:rounded-full file:border-0 file:text-sm file:font-semibold 
+               file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
+  />
+
+  {/* Display uploaded resume files */}
+  {resumes.length > 0 && (
+    <div className="mt-2 flex flex-wrap gap-2">
+      {resumes.map((file, idx) => (
+        <div key={idx} className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">
+          {file.name}
+        </div>
+      ))}
+    </div>
+  )}
+</div>
+
 
           {/* Submit */}
           <button
