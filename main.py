@@ -75,10 +75,12 @@ from fastapi import Request
 @app.options("/upload")
 async def options_upload(request: Request):
     return JSONResponse(
+        content={},  # <-- must include content
         status_code=200,
         headers={
-            "Access-Control-Allow-Origin": "https://smart-resume-screener-df4o.onrender.com",  # match your frontend
+            "Access-Control-Allow-Origin": "https://smart-resume-screener-df4o.onrender.com",
             "Access-Control-Allow-Methods": "POST, OPTIONS",
             "Access-Control-Allow-Headers": "*",
         },
     )
+
