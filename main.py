@@ -44,7 +44,7 @@ def analyze_resumes(job_text, resumes_text):
     prompt += "Rank the resumes from best to worst fit for the job and provide a short justification for each."
 
     response = client.chat.completions.create(
-        model="gpt-4",
+        model="gpt-4-turbo",
         messages=[{"role": "user", "content": prompt}],
         temperature=0
     )
