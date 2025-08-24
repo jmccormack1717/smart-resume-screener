@@ -29,6 +29,32 @@ def extract_text(file: UploadFile):
     else:  # .txt or fallback
         return file.file.read().decode("utf-8", errors="ignore")
 
+import openai
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+
+def analyze_resumes(job_text, resumes_text):
+    """
+    job_text: str
+    resumes_text: list of dicts [{"filename":..., "content":...}, ...]
+    """
+    prompt = f"Job description:\n{job_text}\n\nResumes:\n"
+    for r in resumes_text:
+        prompt += f"{r['filename']}:\n{r['content']}\n\n"
+    prompt += "Rank the resumes from best to worst fit for the job and provide a short justification for each."
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4",  # or gpt-3.5-turbo
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0
+    )
+
+    return response.choices[0].message.content
+
 
 @app.post("/upload")
 async def upload_files(
@@ -42,9 +68,13 @@ async def upload_files(
     resumes_text = []
     for resume in resumes:
         text = extract_text(resume)
-        resumes_text.append({"filename": resume.filename, "content": text[:300]})  # truncate preview
+        resumes_text.append({"filename": resume.filename, "content": text})
+
+    # Call LLM to rank & justify
+    llm_output = analyze_resumes(job_text, resumes_text)
 
     return {
         "job_description_preview": job_text[:300],
-        "resumes": resumes_text
+        "resumes": resumes_text,
+        "llm_output": llm_output
     }
