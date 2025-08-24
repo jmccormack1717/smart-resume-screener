@@ -1,7 +1,7 @@
 // src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Results from "./pages/Results";
+import Home from "my-app/src/pages/Home.jsx";
+import Results from "my-app/src/pages/Results.jsx";
 
 export default function App() {
   return (
@@ -13,3 +13,4 @@ export default function App() {
     </Router>
   );
 }
+
