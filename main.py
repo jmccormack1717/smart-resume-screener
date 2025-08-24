@@ -68,3 +68,17 @@ async def upload_files(
         "resumes": resumes_text,
         "llm_output": llm_output
     }
+
+from fastapi.responses import JSONResponse
+from fastapi import Request
+
+@app.options("/upload")
+async def options_upload(request: Request):
+    return JSONResponse(
+        status_code=200,
+        headers={
+            "Access-Control-Allow-Origin": "https://smart-resume-screener-df4o.onrender.com",  # match your frontend
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "*",
+        },
+    )
