@@ -1,9 +1,12 @@
 // src/App.jsx
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 export default function App() {
   const [jobFile, setJobFile] = useState(null);
   const [resumes, setResumes] = useState([]);
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (e) => {
   e.preventDefault();
@@ -21,7 +24,8 @@ export default function App() {
 
   const data = await response.json();
   console.log("Backend response:", data);
-  alert("Upload successful! Check console for response.");
+  alert("Upload successful! Check console for response.")
+  navigate("/results", { state: { results: data } });
 };
 
 
