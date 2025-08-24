@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
-export default function App() {
+export default function Home() {
   const [jobFile, setJobFile] = useState(null);
   const [resumes, setResumes] = useState([]);
   const navigate = useNavigate(); 
