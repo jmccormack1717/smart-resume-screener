@@ -38,17 +38,24 @@ async def extract_text(file: UploadFile):
         return content.decode("utf-8", errors="ignore")
 
 def analyze_resumes(job_text, resumes_text):
+    """
+    job_text: str
+    resumes_text: list of dicts [{"filename":..., "content":...}, ...]
+    """
     prompt = f"Job description:\n{job_text}\n\nResumes:\n"
     for r in resumes_text:
         prompt += f"{r['filename']}:\n{r['content']}\n\n"
     prompt += "Rank the resumes from best to worst fit for the job and provide a short justification for each."
 
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4",
         messages=[{"role": "user", "content": prompt}],
         temperature=0
     )
+
+    # In the new API, the content is under response.choices[0].message.content
     return response.choices[0].message.content
+
 
 @app.post("/upload")
 async def upload_files(
